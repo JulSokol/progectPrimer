@@ -1,7 +1,5 @@
 package com.chess.domain;
 
-import com.chess.domain.Role;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -15,6 +13,46 @@ public class User {
     private String username;
 
     private String password;
+
+    private String country;
+
+    private String city;
+
+    private String Email;
+
+    private String nik;
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getEmail() {
+        return Email;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getNik() {
+        return nik;
+    }
+
+    public void setNik(String nik) {
+        this.nik = nik;
+    }
 
     @Transient
     private String passwordConfirm;
