@@ -1,7 +1,7 @@
-package com.example.demo;
+package com.chess.validators;
 
-import com.example.demo.User;
-import com.example.demo.service.UserService;
+import com.chess.domain.User;
+import com.chess.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;

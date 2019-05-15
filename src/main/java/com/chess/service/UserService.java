@@ -1,6 +1,6 @@
-package com.example.demo.service;
+package com.chess.service;
 
-import com.example.demo.User;
+import com.chess.domain.User;
 
 public interface UserService {
     void save(User user);

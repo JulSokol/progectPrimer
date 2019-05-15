@@ -1,4 +1,6 @@
-package com.example.demo;
+package com.chess.domain;
+
+import com.chess.domain.Role;
 
 import javax.persistence.*;
 import java.util.Set;

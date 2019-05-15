@@ -1,6 +1,6 @@
-package com.example.demo.repos;
+package com.chess.repos;
 
-import com.example.demo.Role;
+import com.chess.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {

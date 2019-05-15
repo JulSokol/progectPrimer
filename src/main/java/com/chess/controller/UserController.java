@@ -1,9 +1,9 @@
-package com.example.demo.controller;
+package com.chess.controller;
 
-import com.example.demo.User;
-import com.example.demo.UserValidator;
-import com.example.demo.service.SecurityService;
-import com.example.demo.service.UserService;
+import com.chess.domain.User;
+import com.chess.validators.UserValidator;
+import com.chess.service.SecurityService;
+import com.chess.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +40,7 @@ public class UserController {
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/welcome";
+        return "redirect:/chess";
     }
 
     @GetMapping("/login")

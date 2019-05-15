@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.chess.domain;
 
 import javax.persistence.*;
 import java.util.Set;

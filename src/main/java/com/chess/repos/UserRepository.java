@@ -1,6 +1,6 @@
-package com.example.demo.repos;
+package com.chess.repos;
 
-import com.example.demo.User;
+import com.chess.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {

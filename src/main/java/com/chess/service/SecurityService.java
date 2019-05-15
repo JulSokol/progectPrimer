@@ -1,4 +1,4 @@
-package com.example.demo.service;
+package com.chess.service;
 
 public interface SecurityService {
     String findLoggedInUsername();

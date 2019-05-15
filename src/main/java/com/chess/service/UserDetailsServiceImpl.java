@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.chess.service;
 
-import com.example.demo.Role;
-import com.example.demo.User;
-import com.example.demo.repos.UserRepository;
+import com.chess.domain.Role;
+import com.chess.domain.User;
+import com.chess.repos.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
