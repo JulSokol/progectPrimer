@@ -1,7 +1,7 @@
 package com.chess.controller;
 
-import com.chess.domain.ChessTable;
-import com.chess.repos.ChessRepo;
+import com.chess.domain.ChessGame;
+import com.chess.service.ChessGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,63 +11,30 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChessController {
 
     @Autowired
-    public ChessRepo chessRepo;
-
-    static ChessTable board = null;
+    public ChessGameService chessGameService;
 
     @GetMapping("getFigures")
-    public String getFigures (){
-        if (board == null){
-            return "";
-        }
+    public String getFigures (
+            @RequestParam(value = "gameId") long gameId
+    ){
+        ChessGame board = chessGameService.getGame(gameId);
         return board.figures;
     }
 
     @GetMapping("moveFigure")
     public String moveFigure (
+            @RequestParam(value = "gameId") long gameId,
             @RequestParam(value = "frCoord") int frCoord,
             @RequestParam(value = "toCoord") int toCoord) {
-
-        if (canMove(frCoord, toCoord)){
-            StringBuilder figuresBuilder = new StringBuilder(board.figures);
-            char figure = figuresBuilder.charAt(frCoord);
-            figuresBuilder.setCharAt(frCoord, '1');
-            figuresBuilder.setCharAt(toCoord, figure);
-            board.figures = figuresBuilder.toString();
-            chessRepo.save(board);
-        }
+        ChessGame board = chessGameService.move(gameId, frCoord, toCoord);
         return board.figures;
     }
 
     @GetMapping("newFigures")
     public String newFigures() {
-        board = new ChessTable();
-        board.figures = "rnbqkbnrpppppppp11111111111111111111111111111111PPPPPPPPRNBQKBNR";
-        chessRepo.save(board);
-        return board.figures;
+        ChessGame chessGame = chessGameService.newGame();
+        return chessGame.id.toString();
     }
 
-    boolean canMove(int frFigure, int toFigure){
-        if("kK".indexOf(board.figures.charAt(toFigure)) >=0){
-            return false;
-        }
-
-        if (colorFigures(frFigure).equals(colorFigures(toFigure))){
-            return false;
-        }
-
-        return true;
-
-    }
-
-    public String colorFigures(int figure) {
-        if ("KQRBNP".indexOf(board.figures.charAt(figure)) >= 0) {
-            return "white";
-        }
-        if ("kqrbnp".indexOf(board.figures.charAt(figure)) >=0){
-            return "black";
-        }
-        return "empty";
-    }
 
 }

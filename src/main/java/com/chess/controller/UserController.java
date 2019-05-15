@@ -1,14 +1,16 @@
 package com.chess.controller;
 
 import com.chess.domain.User;
-import com.chess.validators.UserValidator;
 import com.chess.service.SecurityService;
 import com.chess.service.UserService;
+import com.chess.validators.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
@@ -54,8 +56,8 @@ public class UserController {
         return "login";
     }
 
-    @GetMapping({"/", "/welcome"})
+    @GetMapping({"/"})
     public String welcome(Model model) {
-        return "welcome";
+        return "redirect:/lobby";
     }
 }

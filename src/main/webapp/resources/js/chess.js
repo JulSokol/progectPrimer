@@ -4,6 +4,7 @@ var divFigure = '<div id= "f$coord" class="figure">$figure</div>';
 var isDragging = false;
 var isFlipped = false;
 
+var gameId = -1;
 
 $(function () {
     start();
@@ -103,8 +104,9 @@ function isBlackSquareAt(coord) {
 }
 
 function newFiguresJava() {
-    $.get('/newFigures',
-        showFigures);
+    $.get('/newFigures', function (newGameId) {
+        gameId = newGameId
+    });
 
 }
 
@@ -112,10 +114,11 @@ function moveFiguresJava(frCoord, toCoord) {
     $.get('/moveFigure' +
         '?frCoord=' + frCoord +
         '&toCoord=' + toCoord,
+        '&gameId=' + gameId,
         showFigures);
 }
 
 function showFiguresJava() {
-    if(isDragging) return;
-    $.get('/getFigures', showFigures);
+    if(isDragging || gameId < 0) return;
+    $.get('/getFigures?gameId='+gameId, showFigures);
 }
