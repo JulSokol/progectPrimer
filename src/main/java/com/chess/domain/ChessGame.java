@@ -1,5 +1,7 @@
 package com.chess.domain;
 
+import com.chess.game.Square;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,5 +19,11 @@ public class ChessGame {
 
     @ManyToOne
     public User black;
+
+    public String moveColor;
+
+    public char getFigure(Square square){
+        return figures.charAt(square.getPositionIndex());
+    }
 
 }

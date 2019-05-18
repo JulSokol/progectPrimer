@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  db:
+    image: "mysql:8.0.16"
+    restart: unless-stopped
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_USER: chess
+      MYSQL_PASSWORD: chess
+      MYSQL_DATABASE: chess
+      MYSQL_ROOT_PASSWORD: chess
+    volumes:
+      - ./mysqldata:/var/lib/mysql  # Store Mysql data ./mysqldata
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']

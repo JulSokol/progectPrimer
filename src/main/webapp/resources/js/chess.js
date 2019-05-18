@@ -4,7 +4,7 @@ var divFigure = '<div id= "f$coord" class="figure">$figure</div>';
 var isDragging = false;
 var isFlipped = false;
 
-var gameId = -1;
+
 
 $(function () {
     start();

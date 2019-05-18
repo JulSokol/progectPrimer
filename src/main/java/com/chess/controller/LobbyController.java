@@ -1,6 +1,7 @@
 package com.chess.controller;
 
 import com.chess.domain.User;
+import com.chess.service.ChessGameService;
 import com.chess.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import java.util.*;
 public class LobbyController {
 
     @Autowired private UserService userService;
+    @Autowired private ChessGameService chessGameService;
 
     static Set<Long> usersInSearch = new HashSet<>();
 
@@ -34,6 +36,25 @@ public class LobbyController {
             Long second = asList.get(1);
             usersInSearch.remove(first);
             usersInSearch.remove(second);
+
+            List<Long> players = Arrays.asList(first, second);
+            Collections.shuffle(players);
+            User whitePlayer = userService.getById(asList.get(0));
+            User blackPlayer = userService.getById(asList.get(1));
+            chessGameService.createGame(whitePlayer, blackPlayer);
         }
     }
+
+    @ResponseBody
+    @GetMapping("/lobby/hasCurrentGame")
+    public Long hasGame(Principal principal){
+        User user = userService.findByUsername(principal.getName());
+        return user.getCurrentGameId();
+    }
+
+    // проверяем, что есть созданная игра
+    // если есть - возвращаетм ее ID
+    // и делаем редирект на "chess?gameId=5"
+
+
 }

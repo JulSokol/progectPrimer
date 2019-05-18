@@ -6,7 +6,15 @@
 <script>
     $('.FindGame').click(function() {
         $.get('/lobby/findgame');
-    })
+    });
+
+    setInterval(function () {
+        $.get('/lobby/hasCurrentGame', function (result) {
+            if (result){
+                window.location='/chess/' + result;
+            }
+        });
+    }, 1000)
 </script>
 
 <jsp:include page="./include/footer.jsp" />

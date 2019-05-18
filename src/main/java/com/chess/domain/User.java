@@ -22,6 +22,8 @@ public class User {
 
     private String nik;
 
+    private Long currentGameId;
+
     public String getCountry() {
         return country;
     }
@@ -98,5 +100,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Long getCurrentGameId() {
+        return currentGameId;
+    }
+
+    public void setCurrentGameId(Long currentGameId) {
+        this.currentGameId = currentGameId;
     }
 }
