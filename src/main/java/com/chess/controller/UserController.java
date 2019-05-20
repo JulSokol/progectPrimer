@@ -38,11 +38,11 @@ public class UserController {
             return "registration";
         }
 
-        userService.save(userForm);
+        userService.saveWithPassword(userForm, userForm.getPassword());
 
         securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
 
-        return "redirect:/chess";
+        return "redirect:/lobby";
     }
 
     @GetMapping("/login")

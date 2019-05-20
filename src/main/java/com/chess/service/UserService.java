@@ -8,4 +8,6 @@ public interface UserService {
     User findByUsername(String username);
 
     User getById(Long id);
+
+    void saveWithPassword(User userForm, String password);
 }

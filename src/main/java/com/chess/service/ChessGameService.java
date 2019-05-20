@@ -3,16 +3,20 @@ package com.chess.service;
 import com.chess.domain.ChessGame;
 import com.chess.domain.User;
 import com.chess.game.FigureMoving;
+import com.chess.game.FigureOnSquare;
 import com.chess.game.Square;
 import com.chess.repos.ChessRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ChessGameService {
 
-    final String COLOR_WHITE = "white";
-    final String COLOR_BLACK = "black";
+    public final static String COLOR_WHITE = "white";
+    public final static String COLOR_BLACK = "black";
 
     final char FIGURE_NONE = '1';
 
@@ -41,17 +45,30 @@ public class ChessGameService {
         return board;
     }
 
-    public ChessGame move(long gameId, int frCoord, int toCoord) {
+    public ChessGame move(User user, long gameId, int frCoord, int toCoord) {
         ChessGame board = chessRepo.findById(gameId).get();
 
         FigureMoving fm = new FigureMoving(board.getFigure(new Square(frCoord)), frCoord, toCoord);
 
-        if (canMove(board, fm)){
+        if (board.moveColor.equals(COLOR_WHITE)) {
+            if (!board.white.getId().equals(user.getId())) return board;
+            if (!colorFigures(board, fm.from).equals(COLOR_WHITE)) return board;
+        } else {
+            if (!board.black.getId().equals(user.getId())) return board;
+            if (!colorFigures(board, fm.from).equals(COLOR_BLACK)) return board;
+        }
+
+        if (canMove(board, fm) && !isCheckAfterMove(board)){
             StringBuilder figuresBuilder = new StringBuilder(board.figures);
             char figure = figuresBuilder.charAt(frCoord);
             figuresBuilder.setCharAt(frCoord, '1');
             figuresBuilder.setCharAt(toCoord, figure);
             board.figures = figuresBuilder.toString();
+            if (board.moveColor.equals(COLOR_WHITE)) {
+                board.moveColor = COLOR_BLACK;
+            } else {
+                board.moveColor = COLOR_WHITE;
+            }
             chessRepo.save(board);
         }
         return board;
@@ -123,9 +140,6 @@ public class ChessGameService {
         return false;
     }
 
-   /* private boolean canBishopMove(FigureMoving fm) {
-        return "";
-    }*/
 
     private boolean canKnightMove(FigureMoving fm) {
         return (fm.getAbsDeltaX() == 1 && fm.getAbsDeltaY() == 2) || (fm.getAbsDeltaX() == 2 && fm.getAbsDeltaY() == 1);
@@ -172,7 +186,6 @@ public class ChessGameService {
             }
         }
         return false;
-
     }
 
     public boolean canPawnEat(int stepY, ChessGame board, FigureMoving fm) {
@@ -185,8 +198,6 @@ public class ChessGameService {
         }
         return false;
     }
-
-
 
     private String colorFigures(ChessGame board, Square square) {
         if ("KQRBNP".indexOf(board.figures.charAt(square.getPositionIndex())) >= 0) {
@@ -216,5 +227,44 @@ public class ChessGameService {
         userService.save(blackPlayer);
 
         return board;
+    }
+
+    public boolean CanEatKing(ChessGame board){
+        Square badKing = FindBadKing(board);
+        for (FigureOnSquare fs: yieldFigures(board)) {
+            FigureMoving fm = new FigureMoving(fs.getFigure(), fs.getSquare().getPositionIndex(), badKing.getPositionIndex());
+            if (canMove(board, fm)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private Square FindBadKing(ChessGame board) {
+        char badKing = board.moveColor.equals(COLOR_WHITE) ? KING_BLACK : KING_WHITE;
+        for (FigureOnSquare fs : yieldFigures(board)) {
+            if (fs.getFigure() == badKing) {
+                return fs.getSquare();
+            }
+        }
+        return null;
+    }
+
+    private List<FigureOnSquare> yieldFigures(ChessGame board) {
+        List<FigureOnSquare> list = new ArrayList<>();
+        for (int i = 0; i < board.figures.length(); i++) {
+            if(board.figures.charAt(i) != FIGURE_NONE) {
+                list.add(new FigureOnSquare(new Square(i), board.figures.charAt(i)));
+            }
+        }
+        return list;
+    }
+
+    public boolean IsChek(ChessGame board) {
+        return CanEatKing(board);
+    }
+
+    public boolean isCheckAfterMove(ChessGame board) {
+        return CanEatKing(board);
     }
 }

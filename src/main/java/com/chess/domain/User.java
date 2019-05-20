@@ -22,6 +22,7 @@ public class User {
 
     private String nik;
 
+    @Column(name = "current_game_id")
     private Long currentGameId;
 
     public String getCountry() {

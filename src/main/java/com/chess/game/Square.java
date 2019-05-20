@@ -35,4 +35,5 @@ public class Square {
         return  this.x == that.x &&
                 this.y == that.y;
     }
+
 }

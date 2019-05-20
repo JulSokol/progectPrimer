@@ -26,6 +26,7 @@ function flipBoard() {
 
 function setDraggable() {
     $('.figure').draggable({
+        containment: ".board",
         start: function (event, ui) {
             isDragging = true;
         }
@@ -63,10 +64,12 @@ function  moveFigure(frCoord, toCoord) {
     setDraggable();
 }
 
-function showFigures(figures) {
+function showFigures(info) {
+    if(!isFlipped && info.yourColor === "black") {
+        flipBoard();
+    }
     for (var coord = 0; coord < 64; coord++)
-        showFigureAt(coord, figures.charAt(coord));
-
+        showFigureAt(coord, info.figures.charAt(coord));
 }
 
 function showFigureAt(coord, figure) {
@@ -107,7 +110,6 @@ function newFiguresJava() {
     $.get('/newFigures', function (newGameId) {
         gameId = newGameId
     });
-
 }
 
 function moveFiguresJava(frCoord, toCoord) {
