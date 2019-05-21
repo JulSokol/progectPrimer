@@ -5,6 +5,7 @@ import com.chess.service.ChessGameService;
 import com.chess.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,7 +21,9 @@ public class LobbyController {
     static Set<Long> usersInSearch = new HashSet<>();
 
     @GetMapping("/lobby")
-    public String lobby(){
+    public String lobby(Principal principal, Model model) {
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("admin", user.isAdmin());
         return "lobby";
     }
 

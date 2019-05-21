@@ -110,4 +110,31 @@ public class User {
     public void setCurrentGameId(Long currentGameId) {
         this.currentGameId = currentGameId;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", Email='" + Email + '\'' +
+                ", nik='" + nik + '\'' +
+                ", currentGameId=" + currentGameId +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
+
+    public boolean isAdmin() {
+        if (roles != null) {
+            for (Role role : roles) {
+                if (role.getName().equals("ADMIN")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

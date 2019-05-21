@@ -5,5 +5,7 @@ create table chat_messages
     user_id bigint,
     game_id bigint null,
     message_time datetime,
-    messages varchar(255) null
+    message varchar(255) null
 );
+
+alter table chat_messages add constraint FKbsqde5d10bcmxatteetweokl foreign key (user_id) references user (id);

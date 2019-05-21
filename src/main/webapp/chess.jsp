@@ -5,7 +5,11 @@
     var gameId = ${gameId};
 </script>
 
-<div class="board"></div>
+<div style="float: left;" class="board"></div>
 <script src="/resources/js/chess.js"></script>
+
+<div style="float: right;">
+    <jsp:include page="chat.jsp"/>
+</div>
 
 <jsp:include page="./include/footer.jsp" />

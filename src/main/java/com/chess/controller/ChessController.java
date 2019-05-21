@@ -44,16 +44,19 @@ public class ChessController {
         ChessGame board = chessGameService.move(user, gameId, frCoord, toCoord);
         return board.figures;
     }
+/*
 
     @GetMapping("newFigures")
     public String newFigures() {
         ChessGame chessGame = chessGameService.newGame();
         return chessGame.id.toString();
     }
+*/
 
     public static class GameInfo {
         public String moveColor;
         public String yourColor;
         public String figures;
+        public String status;
     }
 }
